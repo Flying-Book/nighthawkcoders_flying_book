@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flappy Bird</title>
+    <style>
+        /* Add your CSS styles here */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #87CEEB; /* Sky blue background */
+            overflow: hidden;
+        }
+        #game-container {
+            position: relative;
+            width: 400px;
+            height: 600px;
+            margin: 0 auto;
+            background-color: #fff; /* White game area */
+        }
+        #bird {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: #FFA500; /* Orange bird */
+            bottom: 50%;
+            transform: translateY(50%);
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <div id="bird"></div>
+    </div>
+
+    <script>
+        // JavaScript code for the Flappy Bird game
+        const bird = document.getElementById('bird');
+        let birdY = 50;
+        let gravity = 1;
+        let jump = -15;
+
+        function jumpBird() {
+            birdY += jump;
+        }
+
+        function gameLoop() {
+            birdY += gravity;
+            bird.style.top = birdY + 'px';
+
+            // Check for collision with the ground
+            if (birdY >= (600 - bird.clientHeight)) {
+                gameOver();
+                return;
+            }
+
+            requestAnimationFrame(gameLoop);
+        }
+
+        function gameOver() {
+            alert('Game Over');
+            location.reload(); // Reload the game
+        }
+
+        // Event listener for jumping
+        document.addEventListener('keydown', function(event) {
+            if (event.key === ' ') { // Spacebar key
+                jumpBird();
+            }
+        });
+
+        gameLoop(); // Start the game loop
+    </script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Forecast</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .weather-card {
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 20px auto;
+            width: 300px;
+        }
+        h2 {
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="weather-card">
+        <h2>Weather Forecast</h2>
+        <div id="weather-info"></div>
+    </div>
+
+    <script>
+        // Replace with your own API key (if needed)
+        const apiKey = "YhmVoHivSYGGukAmonwHoJRdrhGvTiBP"; // If the NOAA API doesn't require an API key, you can leave this empty.
+
+        // Set the latitude and longitude for San Diego, California
+        const latitude = "32.7157";
+        const longitude = "-117.1617";
+
+        // Define the NOAA API endpoint
+        const endpoint = `https://forecast.weather.gov/points/${latitude},${longitude}/forecast`;
+        // Fetch weather data from the NOAA API
+        fetch(endpoint, { headers: { "User-Agent": "JavaScript NOAA Weather App" } })
+            .then(response => response.json())
+            .then(data => {
+                const properties = data.properties;
+                const periods = properties.periods;
+
+                const weatherInfo = document.getElementById("weather-info");
+
+                if (periods && periods.length > 0) {
+                    for (let i = 0; i < 5; i++) {
+                        const period = periods[i];
+                        const time = period.name;
+                        const temperature = period.temperature + "°F";
+                        const forecast = period.detailedForecast;
+
+                        const forecastDiv = document.createElement("div");
+                        forecastDiv.innerHTML = `<strong>${time}</strong><br>Temperature: ${temperature}<br>Forecast: ${forecast}<br><br>`;
+                        weatherInfo.appendChild(forecastDiv);
+                    }
+                } else {
+                    weatherInfo.innerHTML = "No weather data available.";
+                }
+            })
+            .catch(error => {
+                console.error("Failed to retrieve weather data:", error);
+            });
+    </script>
+</body>
+</html>
