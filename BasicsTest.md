@@ -4,7 +4,7 @@ comments: true
 layout: post
 title: Basics Test
 description: JS Test Application
-courses: {compsci: {week: 3} }
+courses: {compsci: {week: 5} }
 type: hacks
 ---
 ---
